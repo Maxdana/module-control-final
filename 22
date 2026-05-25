@@ -1,0 +1,67 @@
+// Функція для обробки списку товарів
+function processProducts(products) {
+
+    // Масив товарів у наявності
+    const availableProducts = products.filter(product => product.inStock);
+
+    // Масив назв товарів у наявності
+    const available = availableProducts.map(product => product.name);
+
+    // Загальна сума товарів у наявності
+    const totalPrice = availableProducts.reduce((sum, product) => {
+        return sum + product.price;
+    }, 0);
+
+    // Пошук найдешевшого товару серед наявних
+    let cheapest = undefined;
+
+    if (availableProducts.length > 0) {
+
+        let cheapestProduct = availableProducts[0];
+
+        for (let i = 1; i < availableProducts.length; i++) {
+
+            if (availableProducts[i].price < cheapestProduct.price) {
+                cheapestProduct = availableProducts[i];
+            }
+        }
+
+        cheapest = cheapestProduct.name;
+    }
+
+    // Формування списку цін
+    const priceList = products.map(product => {
+        return `${product.name} — ${product.price} грн`;
+    });
+
+    // Повернення результату
+    return {
+        available: available,
+        totalPrice: totalPrice,
+        cheapest: cheapest,
+        priceList: priceList
+    };
+}
+
+// Приклад даних
+const products = [
+    { name: "Чай", price: 50, inStock: true },
+    { name: "Кава", price: 120, inStock: false },
+    { name: "Цукор", price: 30, inStock: true }
+];
+
+// Перевірка роботи функції
+console.log(processProducts(products));
+
+/*
+{
+    available: ["Чай", "Цукор"],
+    totalPrice: 80,
+    cheapest: "Цукор",
+    priceList: [
+        "Чай — 50 грн",
+        "Кава — 120 грн",
+        "Цукор — 30 грн"
+    ]
+}
+*/
