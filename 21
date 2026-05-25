@@ -1,0 +1,57 @@
+// Функція для аналізу масиву чисел
+function summarizeNumbers(numbers) {
+
+    // Кількість елементів у масиві
+    let count = numbers.length;
+
+    // Початкові значення
+    let sum = 0;
+    let evenCount = 0;
+    let max = undefined;
+
+    // Перебір масиву за допомогою циклу
+    for (let i = 0; i < numbers.length; i++) {
+
+        let number = numbers[i];
+
+        // Додаємо число до суми
+        sum += number;
+
+        // Перевірка на парність
+        if (number % 2 === 0) {
+            evenCount++;
+        }
+
+        // Пошук найбільшого числа
+        if (max === undefined || number > max) {
+            max = number;
+        }
+    }
+
+    // Визначення категорії
+    let category;
+
+    if (count === 0) {
+        category = "empty";
+    } else if (sum > 0) {
+        category = "positive";
+    } else {
+        category = "non-positive";
+    }
+
+    // Повернення результату
+    return {
+        count: count,
+        sum: sum,
+        evenCount: evenCount,
+        max: max,
+        category: category
+    };
+}
+
+// Приклади роботи функції
+console.log(summarizeNumbers([4, 7, 2, 9]));
+// { count: 4, sum: 22, evenCount: 2, max: 9, category: "positive" }
+
+console.log(summarizeNumbers([]));
+// { count: 0, sum: 0, evenCount: 0, max: undefined, category: "empty" }
