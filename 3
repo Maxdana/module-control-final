@@ -1,0 +1,58 @@
+// Функція створює API-клієнт
+function createApiClient(baseUrl) {
+
+    // Приватний лічильник запитів
+    // Він доступний тільки всередині createApiClient
+    let requestCount = 0;
+
+    return {
+
+        // Асинхронний метод для виконання GET-запиту
+        async get(path) {
+
+            // Кожен виклик методу get збільшує лічильник
+            requestCount++;
+
+            try {
+                // Виконуємо запит до API
+                const response = await fetch(baseUrl + path);
+
+                // Перевіряємо, чи запит успішний
+                if (!response.ok) {
+                    throw new Error("Помилка запиту");
+                }
+
+                // Перетворюємо відповідь у JSON
+                const data = await response.json();
+
+                return data;
+
+            } catch (error) {
+                // Якщо сталася помилка, повертаємо об'єкт з повідомленням
+                return {
+                    error: "Запит не вдався"
+                };
+            }
+        },
+
+        // Метод повертає кількість виконаних запитів
+        getRequestCount() {
+            return requestCount;
+        }
+    };
+}
+
+// Приклад використання
+const api = createApiClient("https://jsonplaceholder.typicode.com");
+
+async function testApiClient() {
+    const user = await api.get("/users/1");
+    console.log("Користувач:", user);
+
+    const posts = await api.get("/posts");
+    console.log("Пости:", posts);
+
+    console.log("Кількість запитів:", api.getRequestCount());
+}
+
+testApiClient();
