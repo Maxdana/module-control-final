@@ -57,3 +57,29 @@ const products = [
 ];
 
 console.log(processProducts(products));
+
+
+
+# Task 3 — createApiClient
+
+## Опис
+Функція `createApiClient(baseUrl)` створює API-клієнт для виконання HTTP-запитів.
+
+Функція використовує:
+- замикання (closure)
+- async/await
+- try...catch
+- fetch API
+
+## Методи об'єкта
+
+### get(path)
+Асинхронний метод для виконання GET-запиту.
+
+Функція:
+- виконує `fetch(baseUrl + path)`
+- повертає JSON-відповідь
+- у разі помилки повертає:
+
+```javascript
+{ error: "Запит не вдався" }
